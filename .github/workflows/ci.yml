@@ -1,10 +1,11 @@
-name: Evaluation
+name: Tests
 
 on:
   push:
     branches:
-      - main
-      - master
+      - '**'
+      - '!master'
+      - '!main'
 
 permissions:
   checks: write
@@ -13,7 +14,7 @@ permissions:
 
 jobs:
   build:
-    name: Autograding
+    name: Tests
     runs-on: [ self-hosted ]
     services:
       mysql:
@@ -45,4 +46,5 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: List tests
         run: vendor/bin/phpunit --list-tests
-      - uses: education/autograding@v1
+      - name: Run tests
+        run: vendor/bin/phpunit --testdox
